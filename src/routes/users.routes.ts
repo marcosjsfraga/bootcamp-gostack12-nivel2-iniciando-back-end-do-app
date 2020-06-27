@@ -12,24 +12,20 @@ const upload = multer(uploadConfig);
 // Create an user.
 // (*) Apps don't have authenticate to create a User
 usersRouter.post('/', async (request, response) => {
-    try {
-        const { name, email, password } = request.body;
+    const { name, email, password } = request.body;
 
-        const createUser = new CreateUserService();
+    const createUser = new CreateUserService();
 
-        const user = await createUser.execute({
-            name,
-            email,
-            password,
-        });
+    const user = await createUser.execute({
+        name,
+        email,
+        password,
+    });
 
-        // Hide password in the user object that returns
-        delete user.password;
+    // Don't return password with response
+    delete user.password;
 
-        response.json(user);
-    } catch (error) {
-        response.status(400).json({ error: error.message });
-    }
+    response.json(user);
 });
 
 // Patch is used when we want to update only one information
@@ -38,20 +34,16 @@ usersRouter.patch(
     ensureAuthenticated,
     upload.single('avatar'),
     async (request, response) => {
-        try {
-            const updateUserAvatarService = new UpdateUserAvatarService();
+        const updateUserAvatarService = new UpdateUserAvatarService();
 
-            const user = await updateUserAvatarService.execute({
-                user_id: request.user.id,
-                avatarFilename: request.file.filename,
-            });
+        const user = await updateUserAvatarService.execute({
+            user_id: request.user.id,
+            avatarFilename: request.file.filename,
+        });
 
-            delete user.password;
+        delete user.password;
 
-            response.json(user);
-        } catch (error) {
-            response.status(400).json({ error: error.message });
-        }
+        response.json(user);
     },
 );
 
