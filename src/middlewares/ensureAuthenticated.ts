@@ -10,11 +10,7 @@ interface TokenPayload {
     sub: string;
 }
 
-export default function ensureAuthenticated(
-    request: Request,
-    response: Response,
-    next: NextFunction,
-): void {
+export default function ensureAuthenticated(request: Request, response: Response, next: NextFunction): void {
     // Token JWT validations
     const authHeader = request.headers.authorization;
 
@@ -22,6 +18,7 @@ export default function ensureAuthenticated(
         throw new AppError('JWT token is missing.', 401);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [type, token] = authHeader.split(' ');
 
     try {

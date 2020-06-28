@@ -29,22 +29,18 @@ usersRouter.post('/', async (request, response) => {
 });
 
 // Patch is used when we want to update only one information
-usersRouter.patch(
-    '/avatar',
-    ensureAuthenticated,
-    upload.single('avatar'),
-    async (request, response) => {
-        const updateUserAvatarService = new UpdateUserAvatarService();
 
-        const user = await updateUserAvatarService.execute({
-            user_id: request.user.id,
-            avatarFilename: request.file.filename,
-        });
+usersRouter.patch('/avatar', ensureAuthenticated, upload.single('avatar'), async (request, response) => {
+    const updateUserAvatarService = new UpdateUserAvatarService();
 
-        delete user.password;
+    const user = await updateUserAvatarService.execute({
+        user_id: request.user.id,
+        avatarFilename: request.file.filename,
+    });
 
-        response.json(user);
-    },
-);
+    delete user.password;
+
+    response.json(user);
+});
 
 export default usersRouter;

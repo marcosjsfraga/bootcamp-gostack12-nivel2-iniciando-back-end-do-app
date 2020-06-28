@@ -12,32 +12,21 @@ interface RequestDTO {
     avatarFilename: string;
 }
 
-export default class UpdateUserAvatarService {
-    public async execute({
-        user_id,
-        avatarFilename,
-    }: RequestDTO): Promise<User> {
+class UpdateUserAvatarService {
+    public async execute({ user_id, avatarFilename }: RequestDTO): Promise<User> {
         const usersRepository = getRepository(User);
 
         const user = await usersRepository.findOne(user_id);
 
         if (!user) {
-            throw new AppError(
-                'Only authenticated users can change avatar',
-                401,
-            );
+            throw new AppError('Only authenticated users can change avatar', 401);
         }
 
         if (user.avatar) {
             // Deletar avatar anterior
-            const userAvatarFilePath = path.join(
-                uploadConfig.directory,
-                user.avatar,
-            );
+            const userAvatarFilePath = path.join(uploadConfig.directory, user.avatar);
 
-            const userAvatarFileExists = await fs.promises.stat(
-                userAvatarFilePath,
-            );
+            const userAvatarFileExists = await fs.promises.stat(userAvatarFilePath);
 
             if (userAvatarFileExists) {
                 await fs.promises.unlink(userAvatarFilePath);
@@ -51,3 +40,5 @@ export default class UpdateUserAvatarService {
         return user;
     }
 }
+
+export default UpdateUserAvatarService;

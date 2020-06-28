@@ -2,9 +2,7 @@ import { getRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import authConfig from '../config/auth';
-
 import AppError from '../errors/AppError';
-
 import User from '../models/User';
 
 interface RequestDTO {
@@ -17,7 +15,7 @@ interface Response {
     token: string;
 }
 
-export default class AuthenticateUserService {
+class AuthenticateUserService {
     public async execute({ email, password }: RequestDTO): Promise<Response> {
         const usersRepository = getRepository(User);
 
@@ -43,3 +41,5 @@ export default class AuthenticateUserService {
         return { user, token };
     }
 }
+
+export default AuthenticateUserService;
