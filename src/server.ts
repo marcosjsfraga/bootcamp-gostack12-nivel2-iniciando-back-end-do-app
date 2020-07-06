@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import express, { Request, Response, NextFunction } from 'express';
+import cors from 'cors';
 import 'express-async-errors';
 
 import routes from './routes';
@@ -10,26 +11,25 @@ import './database';
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 // Middleware to serve static filesß
 app.use('/files', express.static(uploadConfig.directory));
 app.use(routes);
 // Middleware do handle errors
-app.use(
-    (error: Error, request: Request, response: Response, _: NextFunction) => {
-        if (error instanceof AppError) {
-            return response.status(error.statusCode).json({
-                status: 'error',
-                message: error.message,
-            });
-        }
-
-        return response.status(500).json({
+app.use((error: Error, request: Request, response: Response, _: NextFunction) => {
+    if (error instanceof AppError) {
+        return response.status(error.statusCode).json({
             status: 'error',
-            message: 'Internal server error.',
+            message: error.message,
         });
-    },
-);
+    }
+
+    return response.status(500).json({
+        status: 'error',
+        message: 'Internal server error.',
+    });
+});
 
 app.listen(3333, () => {
     // eslint-disable-next-line no-console
