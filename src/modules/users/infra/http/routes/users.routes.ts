@@ -1,9 +1,12 @@
 import { Router } from 'express';
 import multer from 'multer';
-import uploadConfig from '../config/upload';
-import CreateUserService from '../services/CreateUserService';
-import UpdateUserAvatarService from '../services/UpdateUserAvatarService';
-import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+import uploadConfig from '@config/upload';
+import { container } from 'tsyringe';
+
+import CreateUserService from '@modules/users/services/CreateUserService';
+import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarService';
+
+import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 
 const usersRouter = Router();
 // Instantiate Multer
@@ -14,7 +17,7 @@ const upload = multer(uploadConfig);
 usersRouter.post('/', async (request, response) => {
     const { name, email, password } = request.body;
 
-    const createUser = new CreateUserService();
+    const createUser = container.resolve(CreateUserService);
 
     const user = await createUser.execute({
         name,
@@ -31,7 +34,7 @@ usersRouter.post('/', async (request, response) => {
 // Patch is used when we want to update only one information
 
 usersRouter.patch('/avatar', ensureAuthenticated, upload.single('avatar'), async (request, response) => {
-    const updateUserAvatarService = new UpdateUserAvatarService();
+    const updateUserAvatarService = container.resolve(UpdateUserAvatarService);
 
     const user = await updateUserAvatarService.execute({
         user_id: request.user.id,
