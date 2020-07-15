@@ -14,9 +14,11 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-// Middleware to serve static filesß
+
+// Middleware to serve static files
 app.use('/files', express.static(uploadConfig.directory));
 app.use(routes);
+
 // Middleware do handle errors
 app.use((error: Error, request: Request, response: Response, _: NextFunction) => {
     if (error instanceof AppError) {
