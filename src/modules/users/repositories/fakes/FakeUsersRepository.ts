@@ -23,6 +23,7 @@ class FakeUsersRepository implements IUsersRepository {
         user.id = uuid();
         user.name = userData.name;
         user.email = userData.email;
+        user.password = userData.password;
 
         this.users.push(user);
 
