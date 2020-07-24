@@ -16,7 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 // Middleware to serve static files
-app.use('/files', express.static(uploadConfig.directory));
+app.use('/files', express.static(uploadConfig.uploadsFolder));
 app.use(routes);
 
 // Middleware do handle errors
