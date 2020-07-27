@@ -4,13 +4,17 @@ import authConfig from '@config/auth';
 
 import AppError from '@shared/errors/AppError';
 
-interface TokenPayload {
+interface ITokenPayload {
     iat: number;
     exp: number;
     sub: string;
 }
 
-export default function ensureAuthenticated(request: Request, response: Response, next: NextFunction): void {
+export default function ensureAuthenticated(
+    request: Request,
+    response: Response,
+    next: NextFunction,
+): void {
     // Token JWT validations
     const authHeader = request.headers.authorization;
 
@@ -24,7 +28,7 @@ export default function ensureAuthenticated(request: Request, response: Response
     try {
         const decoded = verify(token, authConfig.jwt.secret);
 
-        const { sub } = decoded as TokenPayload;
+        const { sub } = decoded as ITokenPayload;
 
         // Add user information on all routes using this middleware
         request.user = {
