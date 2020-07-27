@@ -12,6 +12,9 @@ export default class ProfileController {
 
         const user = await showProfile.execute({ user_id });
 
+        // Don't return password with response
+        delete user.password;
+
         return response.json(user);
     }
 
