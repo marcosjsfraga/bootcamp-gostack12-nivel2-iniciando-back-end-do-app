@@ -1,4 +1,3 @@
 
-https://app.rocketseat.com.br/node/finalizando-back-end-do-app/group/perfil-do-usuario/lesson/template-engine-1
-
- 5:44
+Link: https://app.rocketseat.com.br/node/finalizando-back-end-do-app/group/perfil-do-usuario/lesson/rota-e-controller-de-perfil
+Time: 9:00
