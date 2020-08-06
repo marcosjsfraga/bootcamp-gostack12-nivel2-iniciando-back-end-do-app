@@ -15,10 +15,12 @@ providersRouter.use(ensureAuthenticated);
 
 // Create an appointment
 providersRouter.get('/', providersController.index);
+// Return month availability
 providersRouter.get(
     '/:provider_id/month-availability',
     providerMonthAvailabilityController.index,
 );
+// Return day availability
 providersRouter.get(
     '/:provider_id/day-availability',
     providerDayAvailabilityController.index,
