@@ -9,12 +9,14 @@ import 'express-async-errors';
 import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
 import routes from '@shared/infra/http/routes';
+import ratelimiter from './middlewares/rateLimiter';
 
 import '@shared/infra/typeorm';
 import '@shared/container';
 
 const app = express();
 
+app.use(ratelimiter);
 app.use(cors());
 app.use(express.json());
 
