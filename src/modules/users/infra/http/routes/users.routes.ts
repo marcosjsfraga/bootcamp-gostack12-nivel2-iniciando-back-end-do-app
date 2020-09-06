@@ -14,7 +14,9 @@ const usersController = new UsersController();
 const userAvatarController = new UserAvatarController();
 const upload = multer(uploadConfig); // Instantiate Multer
 
-// Create an user.
+/* 
+ * Create an user.
+ */
 // (*) Apps don't have authenticate to create a User
 usersRouter.post(
     '/',
@@ -28,7 +30,9 @@ usersRouter.post(
     usersController.create,
 );
 
-// Patch is used when we want to update only one information
+/*
+ * Patch is used when we want to update only one information
+ */
 usersRouter.patch(
     '/avatar',
     ensureAuthenticated,
